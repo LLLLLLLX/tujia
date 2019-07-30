@@ -11,7 +11,7 @@ Vue.use(Router)
 
 export default new Router({
     routes: [
-        {path: '/',component: Home1}, 
+        {path: '/',component: Home}, 
         {path: '/Nav',component: Nav}, 
         {path: '/Carousel',component: Carousel}, 
         {path: '/Index',component: Index},
