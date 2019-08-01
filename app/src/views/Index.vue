@@ -1,5 +1,7 @@
 <template>
     <div>
+        <Nav></Nav>
+        <Carousel></Carousel>
         <div>
             <div class="apartment">
                 <div class="apartment-tilte"><span>玩转民宿公寓</span></div>
@@ -109,11 +111,20 @@
                 <div class="text-center col-lg-12 mb-5"><button class="experience-more pl-4 pr-3 pt-1 pb-1">查看更多></button></div>
             </div>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 <script>
+import Nav from './Nav.vue'
+import Carousel from './Carousel.vue'
+import Footer from './Footer.vue'
+
 export default {
-    
+    components:{
+        "Nav":Nav,
+        "Carousel":Carousel,
+        "Footer":Footer
+    }
 }
 </script>
 <style scoped>

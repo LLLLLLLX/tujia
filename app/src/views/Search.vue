@@ -1,5 +1,13 @@
 <template>
+<div>
+<Nav></Nav>
 <div class="container">
+  <div class="bread">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">途家网</el-breadcrumb-item>
+      <el-breadcrumb-item>济南公寓住宿</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
   <div class="search">
     <div class="address">
       <el-cascader
@@ -185,9 +193,9 @@
       <div class="detailContent">
         <div>
           <img class="detailPic" src="../assets/detail01.jpg" alt="">
-          <div class="detailTop"><div class="detailName">阳光洒满落地窗</div><div class="detailPrice">￥300</div></div>   
-          <div class="detailAddress">历下区</div>
-          <div class="detailContentSort"><span>一居</span>/<span>公寓</span></div>
+          <div class="detailTop"><div class="detailName">{{details[0].title}}</div><div class="detailPrice">￥{{details[0].price}}</div></div>   
+          <div class="detailAddress">{{details[0].addr_detail}}</div>
+          <div class="detailContentSort"><span>{{details[0].h_layout}}</span>/<span>{{details[0].Layout}}</span></div>
         </div>
         <div>
           <img class="detailPic" src="../assets/detail02.jpg" alt="">
@@ -209,6 +217,11 @@
       <el-pagination
         background
         layout="prev, pager, next"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[15, 30, 50, 100]"
+        :page-size="pageSize"
         :total="1000">
       </el-pagination>
     </div>
@@ -218,12 +231,25 @@
     <img src="../assets/detailend01.jpg" alt="">
   </div>
 </div>
+<Footer></Footer>
+</div>
 </template>
 
 <script>
+  import Nav from './Nav.vue'
+  import Footer from './Footer.vue'
+
   export default {
+    components:{
+        "Nav":Nav,
+        "Footer":Footer
+    },
     data() {
       return {
+        details:{},
+        pageSize:9,
+        pageNo:0,
+        currentPage:10,
         date:'',
         valueNum: [],
         valueAddress: [],
@@ -276,6 +302,12 @@
       }
     },
     methods: {
+      handleSizeChange(val) {
+        
+      },
+      handleCurrentChange(val) {
+        this.pageNo=val;
+      },
       handleChange(value) {
         console.log(value);
       },
@@ -307,13 +339,25 @@
         var obj7 =item;
         console.log(obj7);
       },
-    created() {
-      
     },
-    }
+    mounted(){
+      var obj={pno:this.pageNo,pageSize:this.pageSize};
+      console.log(obj);
+      this.axios.get("/pagination",{params:{obj}}).then(res=>{
+            this.details=res.data.data;
+            console.log(this.details);
+      })
+    },
   };
 </script>
 <style>
+.bread{
+  margin:40px 0 20px;
+  font-size:12px;
+}
+.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link{
+  font-weight:400!important;
+}
 .search{
   display:flex;
   background:#b1c8d6;
@@ -428,11 +472,11 @@
   margin-left:8px;
 }
 .pagination{
-  
+
 }
 .paginationContent{
   float:right;
-  margin:50px 0 50px 0;
+  margin:60px auto;
 }
 .el-pagination.is-background .el-pager li:not(.disabled).active{
   background:#fd8238!important;

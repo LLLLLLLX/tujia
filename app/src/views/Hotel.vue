@@ -1,5 +1,6 @@
 <template>
 <div>
+    <Nav></Nav>
     <div class="hotelHead">
         <img src="../assets/hotel01.jpg" alt="">
         <div class="">
@@ -18,29 +19,29 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div class="grid-content bg-purple hotelContentTitle">
-                    <h2>【班禾】大明湖/小清河/好停车/大一居</h2>
-                    <div class="hotelAddress"><span>地址：恒大滨河左岸</span></div>
+                    <h2>{{details.title}}</h2>
+                    <div class="hotelAddress"><span>地址：{{details.addr_detail}}</span></div>
                     <div class="headDetail"><span>自营民宿</span><span>连住优惠</span><span>闪订</span><span>实拍</span></div>
                     <div class="hotelDetail">
                         <div class=""><p>房屋描述</p></div>
-                        <div><span>我的房子是一室一卫，干净整洁，有厨房，有1张双人床可供2人居住，有1个卫生间。采光非常好，下午满满的阳光照射进来非常温暖，通风很好，打开窗户很凉快。每天阳光可晒到大床上，让您沐浴阳光下使完美得自然日光给您带来一天得温暖和幸福。沙发茶几电视网络一应俱全，二楼是卧室，一张一米五的双人大床，床柔软舒适，床品干净整洁，希望缓解您旅途中的疲惫～<br>房子周围交通方便，出行方式众多，打车，公交，单车均十分的方便，南边就是小清河，风景非常优美。距离大明湖3公里左右</span></div>
+                        <div><span>{{details.detail}}</span></div>
                     </div>
                     <div class="hotelServe">
                         <div class="serverTitle"><p>设施服务</p></div>
                         <div><span>基础设施</span></div>
                         <div class="serverDetail">
-                            <p>无线网络</p>
-                            <p>部分空调</p>
-                            <p>电视</p>
-                            <p>洗衣机</p>
-                            <p>暖气</p>
+                            <p><img src="../assets/wifi.png" alt="">无线网络</p>
+                            <p><img src="../assets/kongtiao.png" alt="">部分空调</p>
+                            <p><img src="../assets/dianshi.png" alt="">电视</p>
+                            <p><img src="../assets/xiyiji_.png" alt="">洗衣机</p>
+                            <p><img src="../assets/weibiaoti.png" alt="">暖气</p>
                         </div>
                         <div class="serverDetail">
-                            <p>电热水壶</p>
-                            <p>吹风机</p>
-                            <p>打扫工具</p>
-                            <p>拖鞋</p>
-                            <p>休闲椅</p>
+                            <p><img src="../assets/shuihu.png" alt="">电热水壶</p>
+                            <p><img src="../assets/chuifengji.png" alt="">吹风机</p>
+                            <p><img src="../assets/tubiaozhizuomoban-.png" alt="">打扫工具</p>
+                            <p><img src="../assets/tuoxie.png" alt="">拖鞋</p>
+                            <p><img src="../assets/yizi.png" alt="">休闲椅</p>
                         </div>
                         <div><span>卫浴设施</span></div>
                         <div class="serverDetail">
@@ -55,21 +56,124 @@
                             <p>卫生纸</p>
                         </div>
                     </div>
+                    <div class="hotelRule">
+                        <p>交易规则<span>此交易规则由房东制定</span></p>
+                        <div><span>付款方式：</span>全额预付房费</div>
+                        <div><span>无须确认：</span>下单后即有房，无需等待房东确认</div>
+                        <div><span>入住押金：</span>到店支付¥200.00</div>
+                        <div><span>清洁费：</span>需与房东线下确认</div>
+                    </div>
+                    <div class="hotelStep">
+                        <el-steps  align-center>
+                            <el-step title="入驻成功" description=""></el-step>
+                            <el-step title="入住当天12:00" description="取消订单收取房费的100%"></el-step>
+                            <el-step title="离店当天" description="提前离店收取剩余房费的100%"></el-step>
+                        </el-steps>
+                    </div>
                 </div>
+                <div class="hotelReview">
+                        <div class="reviewContent">
+                            <div class="reviewTitle"><p>本房屋点评</p></div>
+                            <div class="hotelScore">
+                                <span>综合评分：</span>
+                                <el-rate
+                                    v-model="score"
+                                    disabled
+                                    show-score
+                                    text-color="#fd8238"
+                                    >
+                                </el-rate>
+                            </div>
+                            <div class="scoreDetail">
+                                <span>整洁评分：5分</span>
+                                <span>管理服务：5分</span>
+                                <span>交通位置：5分</span>
+                                <span>设施装修：5分</span>
+                            </div>
+                            <div class="reviewDetail">
+                                <div class="reviewAvatar">
+                                    <img src="../assets/avatar.png" alt="">
+                                </div>
+                                <div class="review">
+                                    <div class="uname">酷***</div>
+                                    <div class="udate">2019-08-01</div>
+                                    <div class="ureview">位置好，交通便利，位置好</div>
+                                    <div class="ureply">
+                                        <span>房东回复：</span> 感谢你的评价，祝你生活愉快,欢迎你下次再来
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reviewDetail">
+                                <div class="reviewAvatar">
+                                    <img src="../assets/avatar.png" alt="">
+                                </div>
+                                <div class="review">
+                                    <div class="uname">酷***</div>
+                                    <div class="udate">2019-08-01</div>
+                                    <div class="ureview">位置好，交通便利，位置好</div>
+                                    <div class="ureply">
+                                        <span>房东回复：</span> 感谢你的评价，祝你生活愉快,欢迎你下次再来
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </el-col>
             <el-col :span="8">
-                <div class="grid-content bg-purple">
-                    
+                <div class="grid-content bg-purple hotelintrocontent">
+                    <div class="hotelintro">
+                        <div class="hotelPrice"><h1>￥{{details.price.toFixed(2)}}</h1><span>每晚</span></div>
+                        <div class="hotelSale">
+                            <div class="saleLeft"><span>连住优惠</span></div>
+                            <div><span>&nbsp;&nbsp;&nbsp;满2天9.5折、3天9.0折、7天8.5折、15天8.0折</span></div>
+                        </div>
+                        <div class="hotelDate">
+                            <el-date-picker
+                            v-model="date"
+                            type="daterange"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :default-time="['00:00:00', '23:59:59']">
+                            </el-date-picker>
+                        </div>
+                        <div class="hotelBtn">
+                            <el-row>
+                                <el-button type="warning">立刻预定</el-button>
+                            </el-row>
+                        </div>
+                    </div>
                 </div>
             </el-col>
         </el-row>
-
     </div>
+    <Footer></Footer>
 </div>
 </template>
 <script>
+import Nav from './Nav.vue'
+import Footer from './Footer.vue'
+
 export default {
-    
+    components:{
+        "Nav":Nav,
+        "Footer":Footer,
+        
+    },
+    data() {
+        return {
+             date: '',
+             score:3.7,
+             hid:'',
+             details:{}
+        }
+    },
+    created(){
+        var hid={hid:1};
+        this.axios.get("/details",{params:hid}).then(res=>{
+            this.details=res.data.result[0];
+            console.log(this.details.detail);
+        })
+    },
 }
 </script>
 <style>
@@ -166,8 +270,172 @@ export default {
   }
   .serverDetail p{
       width:150px;
+      margin:auto 0;
+  }
+  .serverDetail p img{
+      width:28px;
+      height:28px;
+      margin-right:8px;
   }
   .hotelServe{
       margin-top:80px;
+  }
+  .hotelServe div span{
+      font-size:14px;
+      color:#333;
+      font-weight:400;
+  }
+  .hotelServe div{
+      font-size:14px;
+      color:#333;
+      font-weight:400;
+      margin-bottom:16px;
+  }
+  .serverTitle p{
+      font-size:20px;
+      color:#333;
+      font-weight:500;
+  }
+  .serverDetail{
+      font-size:14px;
+      color:#333;
+      font-weight:400;
+  }
+  .serverDetail p{
+      font-size:14px;
+      color:#666;
+      width:20%;
+      margin:0;
+  }
+  .hotelintro{
+      padding:30px 20px;
+  }
+  .hotelPrice{
+      display:flex;
+  }
+  .hotelPrice p{
+
+  }
+  .hotelPrice span{
+      display:block;
+      margin:auto 0 auto 5px;
+  }
+  .hotelSale{
+      display:flex;
+      margin-bottom:20px;
+  }
+  
+  .hotelSale span{
+      font-size:12px;
+      color:#666;
+      
+  }
+  .saleLeft span{
+      border:1px solid #fd8238;
+      color:#fd8238;
+      font-size:12px;
+  }
+  .hotelBtn{
+      margin-top:20px;
+  }
+  .el-button--warning{
+      background-image: linear-gradient(-221deg,#ff721e,#ff9b3e) !important;
+      border-radius:0!important;
+      width:100%!important;
+      font-size: 18px!important;
+  }
+  .hotelRule p{
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 25px;
+    margin-top: 50px;
+    font-weight: 500;
+  }
+  .hotelRule p span{
+    color: #999;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .hotelRule div{
+      font-size:14px;
+      color:#666;
+      margin-bottom:8px;
+  }
+  .hotelRule div span{
+      color:#333;
+  }
+  .hotelStep{
+      margin-top:30px;
+  }
+  .hotelReview{
+      background:#fff;
+      margin-top:20px;
+  }
+  .reviewTitle{
+      border-bottom:1px solid #ddd;
+      padding:20px 20px;
+  }
+  .reviewTitle p{
+      margin:auto 0;
+      color: #333;
+      font-size:18px;
+  }
+  .reviewContent{
+      
+  }
+  .hotelScore{
+      padding:20px 20px 10px 20px;
+      font-size:16px;
+      color:#666;
+      display:flex;
+  }
+  .el-rate__icon{
+      font-size:26px!important;
+  }
+  .scoreDetail span{
+      margin-right:40px;
+      color:#666;
+      font-size:14px;
+  }
+  .scoreDetail{
+      margin-right:40px;
+      color:#666;
+      font-size:14px;
+      padding:0 20px 20px 20px;
+  }
+  .reviewDetail{
+      display:flex;
+      padding:20px 40px;
+      border-bottom:1px solid #ddd;
+  }
+  .reviewAvatar{
+      margin-right:20px;
+  }
+  .reviewAvatar img{
+      width:40px;
+      height:40px;
+  }
+  .uname{
+      font-size:16px;
+  }
+  .udate{
+      font-size:12px;
+      color:#999;
+      margin:10px 0;
+  }
+  .ureview{
+      font-size:14px; 
+      color:#333;
+      margin-top:20px;
+  }
+  .ureply{
+      background:#f8f8f8;
+      border:1px solid #ddd;
+      margin-top:20px;
+      padding:14px 15px;
+      font-size:14px;
+  }
+  .ureply span{
+      font-weight: 700;
   }
 </style>
