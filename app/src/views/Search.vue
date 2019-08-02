@@ -337,15 +337,15 @@
      
     },
     mounted(){
-      // eventBus.$on('date',function(message){
-      //   this.date=message;
-      //   console.log(message);
-      // })
-      this.date=sessionStorage.getItem("date").split(",");
-      this.valueAddress=sessionStorage.getItem("valueAddress").split(",");
-      this.valueNum=sessionStorage.getItem("valueNum").split();
-      console.log(this.valueAddress);
-      console.log(this.valueNum);
+       eventBus.$on('date',function(message){
+         this.date=message;
+         console.log(this.date);
+       })
+      // this.date=sessionStorage.getItem("date").split(",");
+      // this.valueAddress=sessionStorage.getItem("valueAddress").split(",");
+      // this.valueNum=sessionStorage.getItem("valueNum").split();
+      // console.log(this.valueAddress);
+      // console.log(this.valueNum);
       var obj={pno:this.pageNo,pageSize:this.pageSize};
       //console.log(obj);
       this.axios.get("/pagination",{params:obj}).then(res=>{
@@ -483,9 +483,7 @@
   font-size:14px;
   margin-left:8px;
 }
-.pagination{
 
-}
 .paginationContent{
   float:right;
   margin:60px auto;

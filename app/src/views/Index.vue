@@ -203,10 +203,10 @@ export default {
     },
     methods: {
         handleChange(value) {
-            console.log(value);
+            //console.log(value);
         },
         search(){
-            // eventBus.$emit('date',this.date);
+             eventBus.$emit('date',this.date);
             sessionStorage.setItem("date",this.date);
             sessionStorage.setItem("valueAddress",this.valueAddress);
             sessionStorage.setItem("valueNum",this.valueNum);
