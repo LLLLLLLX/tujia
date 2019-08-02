@@ -2,6 +2,37 @@
     <div>
         <Nav></Nav>
         <Carousel></Carousel>
+        <div class="search">
+            <div class="address">
+            <el-cascader
+                placeholder="请选择所在区域"
+                v-model="valueAddress"
+                :options="optionsAddress"
+                @change="handleChange"></el-cascader>
+            </div>
+            <div class="date">
+            <el-date-picker
+                v-model="date"
+                value-format="yyyy-MM-dd"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']">
+            </el-date-picker>
+            </div>
+            <div class="num">
+            <el-cascader
+                placeholder="请选择入住人数"
+                v-model="valueNum"
+                :options="optionsNum"
+                @change="handleChange"></el-cascader>
+            </div>
+            <div class="btn">
+                <el-row>
+                    <el-button class="btnSearch" @click="search">搜索</el-button>
+                </el-row>
+            </div>
+        </div>
         <div>
             <div class="apartment">
                 <div class="apartment-tilte"><span>玩转民宿公寓</span></div>
@@ -124,10 +155,81 @@ export default {
         "Nav":Nav,
         "Carousel":Carousel,
         "Footer":Footer
-    }
+    },
+    data() {
+        return {
+            date:[],
+            valueNum: [0],
+            valueAddress: ['山东','济南'],
+            optionsNum: [
+                {value: 0, label: '不限',},
+                {value: 1,label: '1人',},
+                {value: 2,label: '2人',},
+                {value: 3,label: '3人',},
+                {value: 4,label: '4人',},
+                {value: 5,label: '5人',},
+                {value: 6,label: '6人+',},
+            ],
+            optionsAddress: [
+                {
+                    value: '北京',
+                    label: '北京',
+                    children: [
+                        {value: '朝阳区',label: '朝阳区'},
+                        {value: '东城区',label: '东城区'},
+                        {value: '海淀区',label: '海淀区'}
+                    ]
+                },
+                {
+                    value: '山东',
+                    label: '山东',
+                    children: [
+                        {value: '济南',label: '济南'},
+                        {value: '青岛',label: '青岛'},
+                        {value: '聊城',label: '聊城'}
+                    ]
+                },
+                {
+                    value: '上海',
+                    label: '上海',
+                    children: [
+                        {value: '浦东新区',label: '浦东新区'},
+                        {value: '徐汇区',label: '徐汇区'},
+                        {value: '虹口区',label: '虹口区'}
+                    ]
+                }, 
+            ]
+        }
+    },
+    methods: {
+        handleChange(value) {
+            console.log(value);
+        },
+        search(){
+            // eventBus.$emit('date',this.date);
+            sessionStorage.setItem("date",this.date);
+            sessionStorage.setItem("valueAddress",this.valueAddress);
+            sessionStorage.setItem("valueNum",this.valueNum);
+            this.$router.push({path:'/Search'})
+            
+        },
+        getTime(){
+            var t=new Date();
+            this.date.push(t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + (t.getDate())) ;
+            this.date.push(t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + (t.getDate()+1)) ;
+        }
+            
+    },
+    mounted() {
+        this.getTime();
+        //console.log(this.date);
+    },
 }
 </script>
 <style scoped>
+.search{
+  background:#fff !important;
+}
 .apartment-tilte{
     text-align:center;
     font-size:34px;

@@ -15,7 +15,7 @@
             <div id="content" class="collapse navbar-collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item ml-5">
-                        <a href="#" class="nav-link">首页</a>
+                        <router-link to="Index"><a class="nav-link" active>首页</a></router-link>
                     </li>
                     <li class="nav-item ml-5">
                         <a href="#" class="nav-link">发现</a>
@@ -25,16 +25,32 @@
                     </li>
                 </ul>
             </div>
-            <div class="">
-                <a href="#" class="logo">登录</a>
-                <a href="#" class="reg">注册</a>
+            <div id="msg">
+                <router-link to="Login"><a href="#" class="logo">登录</a></router-link>
+                <router-link to="Register"><a href="#" class="reg">注册</a></router-link>
             </div>
         </div> 
    </div>
 </template>
 <script>
 export default {
-    
+    methods: {
+        toLogin(){
+            this.$router.push({path:'/Login'});
+            sessionStorage.removeItem("uname");
+        }
+    },
+    mounted() {
+        //console.log(sessionStorage.getItem("uname"));
+        if(sessionStorage.getItem("uname")){
+        //2:登录成功
+        var str = `欢迎回来 ${sessionStorage.getItem("uname")} `;
+        str += `<a href="http://localhost:8080/#/Login" class="test-one">退出</a>`;
+        //获取显示元素
+        var msg = document.getElementById("msg");
+        msg.innerHTML = str;
+   }
+  }
 }
 </script>
 <style scoped>
@@ -42,6 +58,12 @@ export default {
     margin-left:10px;
 }
 a{
+    color:#fff;
+}
+a:hover{
+    color:#999;
+}
+#msg{
     color:#fff;
 }
 </style>

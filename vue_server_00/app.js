@@ -35,8 +35,56 @@ const bodyParser=require('body-parser');
  }))
  server.listen(3000);
 
+//注册
+server.get("/reg1", (req, res) => {
+  var phone = req.query.tel;
+  pool.query("SELECT * FROM yijia_user WHERE phone=?", [phone], (err, result) => {
+      if (err) throw err;
+      if (result.length == 0) {
+          res.send({ code: 1, msg: "用户名可以使用" })
+      } else {
+          res.send({ code: -1, msg: "用户名已存在" })
+      }
+  })
+})
+server.get("/reg", (req, res) => {
+  var obj = req.query;
+  if (!obj.phone) {
+      res.send({ code: -1, msg: "用户手机号不能为空" });
+      return;
+  }
+  if (!obj.upwd) {
+      res.send({ code: -1, msg: "用户密码不能为空" });
+      return;
+  }
+  var sql = "INSERT INTO yijia_user(phone,upwd) VALUES (?,?)";
+  pool.query(sql, [obj.phone, obj.upwd], (err, result) => {
+      if (err) throw err;
+      if (result.affectedRows > 0) {
+          res.send({ code: 1, msg: "注册成功" });
+      }
+  })
+})
 
-//1.查看房屋完整信息
+//登录
+server.get("/login", (req, res) => {
+  var phone = req.query.phone;
+  var upwd = req.query.upwd;
+  var sql = "SELECT uid FROM yijia_user WHERE phone = ? AND upwd =?";
+  pool.query(sql, [phone, upwd], (err, result) => {
+      if (err) throw err;
+      if (result.length == 0) {
+          res.send({ code: -1, msg: "用户名或密码有误" });
+      } else {
+          // 将当前登录用户的uid保存在session对象
+          // result=[{id:1}]
+          req.session.uid = result[0].uid;
+          res.send({ code: 1, msg: "登录成功" });
+      }
+  })
+})
+
+//查看房屋完整信息
 server.get("/details",(req,res)=>{
   var hid=req.query.hid;
   if(!hid){
@@ -53,7 +101,7 @@ server.get("/details",(req,res)=>{
     }
   })
 })
-//2.查看所有房屋
+//查看所有房屋
 server.get("/house",(req,res)=>{
   var sql="SELECT * FROM yijia_house"
   pool.query(sql,(err,result)=>{

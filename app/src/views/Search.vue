@@ -4,7 +4,7 @@
 <div class="container">
   <div class="bread">
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">途家网</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/Index' }">途家网</el-breadcrumb-item>
       <el-breadcrumb-item>济南公寓住宿</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
@@ -20,6 +20,7 @@
       <el-date-picker
         v-model="date"
         type="daterange"
+        value-format="yyyy-MM-dd"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         :default-time="['00:00:00', '23:59:59']">
@@ -248,18 +249,12 @@
       return {
         details:{},
         pageSize:9,
-        pageNo:0,
+        pageNo:1,
         currentPage:10,
-        date:'',
-        valueNum: [],
-        valueAddress: [],
-        checkList1: [],
-        checkList2: [],
-        checkList3: [],
-        checkList4: [],
-        checkList5: [],
-        checkList6: [],
-        checkList7: [],
+        date:[],
+        valueNum: [0],
+        valueAddress: ['山东','济南'],
+        checkList1: [],checkList2: [],checkList3: [],checkList4: [],checkList5: [],checkList6: [],checkList7: [],
         obj1:[],obj2:[],obj3:[],obj4:[],obj5:[],obj6:[],obj7:[],
         optionsNum: [
           {value: 0, label: '不限',},
@@ -272,31 +267,31 @@
         ],
         optionsAddress: [
           {
-          value: 'beijing',
-          label: '北京',
-          children: [
-            {value: 'chaoyang',label: '朝阳区'},
-            {value: 'dongcheng',label: '东城区'},
-            {value: 'haidian',label: '海淀区'}
-          ]
+              value: '北京',
+              label: '北京',
+              children: [
+                  {value: '朝阳区',label: '朝阳区'},
+                  {value: '东城区',label: '东城区'},
+                  {value: '海淀区',label: '海淀区'}
+              ]
           },
           {
-          value: 'shandong',
-          label: '山东',
-          children: [
-            {value: 'jinan',label: '济南'},
-            {value: 'qingdao',label: '青岛'},
-            {value: 'liaocheng',label: '聊城'}
-          ]
+              value: '山东',
+              label: '山东',
+              children: [
+                  {value: '济南',label: '济南'},
+                  {value: '青岛',label: '青岛'},
+                  {value: '聊城',label: '聊城'}
+              ]
           },
           {
-          value: 'shanghai',
-          label: '上海',
-          children: [
-            {value: 'pudong',label: '浦东新区'},
-            {value: 'xuhui',label: '徐汇区'},
-            {value: 'hongkou',label: '虹口区'}
-          ]
+              value: '上海',
+              label: '上海',
+              children: [
+                  {value: '浦东新区',label: '浦东新区'},
+                  {value: '徐汇区',label: '徐汇区'},
+                  {value: '虹口区',label: '虹口区'}
+              ]
           }, 
         ]
       }
@@ -339,13 +334,23 @@
         var obj7 =item;
         console.log(obj7);
       },
+     
     },
     mounted(){
+      // eventBus.$on('date',function(message){
+      //   this.date=message;
+      //   console.log(message);
+      // })
+      this.date=sessionStorage.getItem("date").split(",");
+      this.valueAddress=sessionStorage.getItem("valueAddress").split(",");
+      this.valueNum=sessionStorage.getItem("valueNum").split();
+      console.log(this.valueAddress);
+      console.log(this.valueNum);
       var obj={pno:this.pageNo,pageSize:this.pageSize};
-      console.log(obj);
-      this.axios.get("/pagination",{params:{obj}}).then(res=>{
+      //console.log(obj);
+      this.axios.get("/pagination",{params:obj}).then(res=>{
             this.details=res.data.data;
-            console.log(this.details);
+            //console.log(this.details);
       })
     },
   };
@@ -365,7 +370,10 @@
   vertical-align:middle;
 }
 .address,.date,.num{
-  padding:6px 0 6px 0;
+  padding:18px 0 6px 0;
+}
+.btn{
+  padding-top:16px!important;  
 }
 .btnSearch{
   background:#3e97e2;
@@ -373,6 +381,10 @@
   color:#fff;
   font-size: 16px;
   padding:10px 40px;
+  margin-top:10px;  
+}
+.el-row{
+  margin-bottom: 8px!important;
 }
 .select{
   border:1px solid #ddd;
@@ -494,8 +506,8 @@
   background:#fff;
   position:absolute;
   left:290px;
-  top:117px;
-  border:1px solid #666;
+  top:237px;
+  border:1px solid #ddd;
 }
 .areaContent li{
   float:left;
