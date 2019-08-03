@@ -1,18 +1,18 @@
 <template>
 <div>
     <Nav></Nav>
+    <img class="hotelTopPic" :src='require(`../assets/${details.hic}`)' alt="">
     <div class="hotelHead">
-        <img src="../assets/hotel01.jpg" alt="">
         <div class="">
             <span>房屋介绍</span>
             <span>交易规则</span>
             <span>入住须知</span>
             <span>额外费用</span>
             <span>房屋点评</span>
-            <div>
-                <span>分享</span>
-                <span>收藏</span>
-            </div>
+        </div>
+        <div>
+            <span>分享</span>
+            <span>收藏</span>
         </div>
     </div>
     <div class="hotelContent">
@@ -122,10 +122,25 @@
             <el-col :span="8">
                 <div class="grid-content bg-purple hotelintrocontent">
                     <div class="hotelintro">
-                        <div class="hotelPrice"><h1>￥{{details.price.toFixed(2)}}</h1><span>每晚</span></div>
+                        <div class="hotelPrice">
+                            <el-row :gutter="10">
+                                <el-col :sm="24" :md="16" :lg="16"><h1>￥{{details.price}}</h1></el-col>
+                                <el-col :sm="24" :md="8" :lg="8"><span>每晚</span></el-col>
+                            </el-row>
+                        </div>
+                            
                         <div class="hotelSale">
-                            <div class="saleLeft"><span>连住优惠</span></div>
-                            <div><span>&nbsp;&nbsp;&nbsp;满2天9.5折、3天9.0折、7天8.5折、15天8.0折</span></div>
+                            <el-row :gutter="10">
+                                <el-col  :sm="24" :md="8" :lg="5" >
+                                    <div class="saleLeft"><span>连住优惠</span></div>
+                                </el-col>
+                                <el-col  :sm="24" :md="16" :lg="19" >
+                                    <div><span>&nbsp;&nbsp;&nbsp;满2天9.5折、3天9.0折、7天8.5折、15天8.0折</span></div>    
+                                </el-col>
+                                </el-row>
+
+                            
+                            
                         </div>
                         <div class="hotelDate">
                             <el-date-picker
@@ -168,22 +183,26 @@ export default {
         }
     },
     created(){
-        var hid={hid:1};
+        //console.log(this.$route.query.id);
+        var hid={hid:this.$route.query.id};
         this.axios.get("/details",{params:hid}).then(res=>{
             this.details=res.data.result[0];
-            console.log(this.details.detail);
+            //console.log(this.details.detail);
         })
     },
 }
 </script>
 <style>
-.hotelHead img{
+.hotelTopPic{
     width:100%;
     height:550px;
 }
 .hotelHead div{
     display:flex;
-    margin-left:167px;
+}
+.hotelHead {
+     display:flex;
+     justify-content:space-around;
 }
 .hotelHead span{
     display:block;
@@ -318,7 +337,8 @@ export default {
   }
   .hotelPrice span{
       display:block;
-      margin:auto 0 auto 5px;
+      margin-top:13px;
+      margin-left:5px;
   }
   .hotelSale{
       display:flex;

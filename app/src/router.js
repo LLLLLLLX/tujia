@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from './views/Home.vue'
 import Nav from './views/Nav.vue'
 import Carousel from './views/Carousel.vue'
 import Index from './views/Index.vue'
@@ -11,12 +10,13 @@ import Hotel from './views/Hotel.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Canvas from './views/Canvas.vue'
+import Orderinfo from './views/Orderinfo.vue'
 
 Vue.use(Router)
 
 export default new Router({
     routes: [
-        {path: '/',component: Login}, 
+        {path: '/',component:Index}, 
         {path: '/Nav',component: Nav}, 
         {path: '/Carousel',component: Carousel}, 
         {path: '/Index',component: Index},
@@ -26,6 +26,7 @@ export default new Router({
         {path: '/Login',component:Login},
         {path: '/Register',component:Register},
         {path: '/Canvas',component:Canvas},
+        {path: '/Orderinfo',component:Orderinfo},
         
     ]
 })

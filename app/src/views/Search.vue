@@ -5,7 +5,7 @@
   <div class="bread">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/Index' }">途家网</el-breadcrumb-item>
-      <el-breadcrumb-item>济南公寓住宿</el-breadcrumb-item>
+      <el-breadcrumb-item>{{valueAddress[0]}}/{{valueAddress[1]}}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
   <div class="search">
@@ -35,7 +35,7 @@
     </div>
     <div class="btn">
       <el-row>
-        <el-button class="btnSearch">搜索</el-button>
+        <el-button class="btnSearch" @click="selectPro">搜索</el-button>
       </el-row>
     </div>
   </div>
@@ -192,12 +192,13 @@
         <span>点评分</span>
       </div>
       <div class="detailContent">
-        <div>
-          <img class="detailPic" src="../assets/detail01.jpg" alt="">
-          <div class="detailTop"><div class="detailName">{{details[0].title}}</div><div class="detailPrice">￥{{details[0].price}}</div></div>   
-          <div class="detailAddress">{{details[0].addr_detail}}</div>
-          <div class="detailContentSort"><span>{{details[0].h_layout}}</span>/<span>{{details[0].Layout}}</span></div>
+        <div v-for="(detail,i) of details" class="detailPro" @click="toHotel(detail.hid)" :key="i">
+          <img class="detailPic" :src='require(`../assets/${detail.hic}`)' alt="">
+          <div class="detailTop" ><div class="detailName">{{detail.title.substring(0,14)}}...</div><div class="detailPrice">￥{{detail.price}}</div></div>   
+          <div class="detailAddress">{{detail.addr_detail}}</div>
+          <div class="detailContentSort"><span>{{detail.h_layout}}</span>/<span>{{detail.Layout}}</span></div>
         </div>
+        <!--
         <div>
           <img class="detailPic" src="../assets/detail02.jpg" alt="">
           <div class="detailTop"><div class="detailName">【故里·不二】磁器口古镇中距地铁站</div><div class="detailPrice">￥300</div></div>
@@ -210,6 +211,7 @@
           <div class="detailAddress">历下区</div>
           <div class="detailContentSort"><span>一居</span>/<span>公寓</span></div>
         </div>
+        -->
       </div>
     </div>
   </div>
@@ -217,13 +219,13 @@
     <div class="paginationContent">
       <el-pagination
         background
+        v-model="pageNo"
         layout="prev, pager, next"
+        :page-count="detailsPc"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[15, 30, 50, 100]"
-        :page-size="pageSize"
-        :total="1000">
+        :total="200">
       </el-pagination>
     </div>
     <div class="clear"></div> 
@@ -250,7 +252,8 @@
         details:{},
         pageSize:9,
         pageNo:1,
-        currentPage:10,
+        currentPage:1,
+        detailsPc:10,
         date:[],
         valueNum: [0],
         valueAddress: ['山东','济南'],
@@ -302,6 +305,14 @@
       },
       handleCurrentChange(val) {
         this.pageNo=val;
+        //console.log(this.pageNo);
+        var obj={pno:this.pageNo,pageSize:this.pageSize};
+        //console.log(obj);
+        this.axios.get("/pagination",{params:obj}).then(res=>{
+            this.details=res.data.data;
+            
+            //console.log(this.details);
+        })
       },
       handleChange(value) {
         console.log(value);
@@ -334,23 +345,29 @@
         var obj7 =item;
         console.log(obj7);
       },
-     
+    selectPro(){
+    },
+    toHotel(hid){
+      //console.log(hid);
+      this.$router.push({path:'hotel',query:{id:hid}}); 
+    }
     },
     mounted(){
-       eventBus.$on('date',function(message){
-         this.date=message;
-         console.log(this.date);
-       })
-      // this.date=sessionStorage.getItem("date").split(",");
-      // this.valueAddress=sessionStorage.getItem("valueAddress").split(",");
-      // this.valueNum=sessionStorage.getItem("valueNum").split();
-      // console.log(this.valueAddress);
-      // console.log(this.valueNum);
+      //  eventBus.$on('date',function(message){
+      //    this.date=message;
+      //    console.log(this.date);
+      //  })
+      this.date=sessionStorage.getItem("date").split(",");
+      this.valueAddress=sessionStorage.getItem("valueAddress").split(",");
+      this.valueNum=JSON.parse(sessionStorage.getItem("valueNum"));
+      //console.log(this.valueAddress);
+      //console.log(this.valueNum);
       var obj={pno:this.pageNo,pageSize:this.pageSize};
       //console.log(obj);
       this.axios.get("/pagination",{params:obj}).then(res=>{
             this.details=res.data.data;
-            //console.log(this.details);
+            this.detailsPc=res.data.pc;
+            //console.log(this.detailsPc);
       })
     },
   };
@@ -459,10 +476,14 @@
 .detailContent{
   display:flex;
   justify-content:space-between;
+  width:100%;
+  flex-wrap:wrap;
+}
+.detailPro{
+  padding:10px;
 }
 .detailPic{
-  width:360px;
-  margin:0 5px 0 5px;
+  width:340px;
 }
 .detailTop{
   display:flex;

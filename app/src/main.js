@@ -12,12 +12,13 @@ import '../node_modules/bootstrap/dist/js/bootstrap.min.js';
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index-et.css';
 
 
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false
- window.eventBus=new Vue();
+//window.eventBus=new Vue();
 new Vue({
   router,
   render: h => h(App)

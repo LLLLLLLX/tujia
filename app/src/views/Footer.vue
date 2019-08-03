@@ -10,11 +10,11 @@
             <div class="col-lg-4 col-md-12 col-sm-12 row">
                 <div class="app col-lg-6 col-md-6 col-sm-12">
                     <p>下载APP</p>
-                    <img class=" img-fluid" src="../assets/app.png">
+                    <img class="" src="../assets/app.jpg">
                 </div>
                 <div class="wx col-lg-6 col-md-12 col-sm-12">
                     <p>微信小程序</p>
-                    <img class=" img-fluid" src="../assets/wx.png">
+                    <img class="" src="../assets/app.jpg">
                 </div>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12">
@@ -54,9 +54,11 @@ export default {
 }
 .app img{
     border:5px solid #fff;
+    width:50%;
 }
 .wx img{
     border:5px solid #fff;
+    width:50%;
 }
 .foot-right{
     padding:0 20px 0 0;
