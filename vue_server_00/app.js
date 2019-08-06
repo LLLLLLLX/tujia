@@ -144,12 +144,12 @@ server.get("/pagination",(req,res)=>{
 //插入订单信息
 server.get("/order",(req,res)=>{
   var obj=req.query;
-  var uid=1;
+  var uid=2;
   if(!uid){
     res.send({code:-1,msg:"uid不能为空"});
     return;
   }
-  var sql="UPDATE orderinfo SET datestart=?,dateend=?,bookingnum=?,bookingpeonum=?,ownername=?,ownertel=?,ownernum=? WHERE uid=?";
+  var sql="INSERT INTO orderinfo SET datestart=?,dateend=?,bookingnum=?,bookingpeonum=?,ownername=?,ownertel=?,ownernum=?,uid=?";
   pool.query(sql,[obj.datestart,obj.dateend,obj.bookingnum,obj.bookingpeonum,obj.ownername,obj.ownertel,obj.ownernum,uid],(err,result)=>{
     if(err) throw err;
     if(result.affectedRows==0){

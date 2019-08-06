@@ -138,7 +138,6 @@ export default {
                     }, 400);
                 }
             })
-        
         } else {
           console.log("error submit!!");
           return false;

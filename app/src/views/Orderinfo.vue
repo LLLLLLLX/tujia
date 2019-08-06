@@ -1,9 +1,11 @@
 <template>
     <div>
+    <Nav></Nav>
         <div class="orderinfo">
             <el-row>
-                <el-col :span="16">
+                <el-col :span="18">
                     <div class="orderStep">
+                        <h3>第一步：提交订单</h3>
                         <div class="bookingInfo">
                             <p>&nbsp;&nbsp;预订信息</p>
                             <div class="bookingDate">
@@ -23,7 +25,7 @@
                             <div class="bookingNum">
                                 <span>预订数量：</span>
                                 <input type="text" v-model="bookingNum" value="bookingNum">
-                                <span>&nbsp;&nbsp;押金：￥300元</span>
+                                <span>&nbsp;&nbsp;押金：￥100元</span>
                             </div>
                             <div class="bookingPeopleNum">
                                 <span>入住人数：</span>
@@ -58,18 +60,35 @@
                             </div>
                         </div>
                         <div class="submit">
-                            <el-checkbox v-model="checked">备选项</el-checkbox><br>
+                            <el-checkbox v-model="checked">我已阅读并同意 <a href="#">《途家网服务条款》</a> 和上述入住须知</el-checkbox><br>
                             <el-button type="warning" @click="submitorder">提交订单</el-button>
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="8"><div class=""></div></el-col>
+                <el-col :span="6">
+                    <div class="orderRight" v-for="(elem,i) of details" :key="i">
+                        <img :src='require(`../assets/${elem.hic}`)' alt=""/>
+                        <p class="orderTitle">{{elem.title}}</p>
+                        <div class="orderType"><span>整套出租</span></div>
+                        <div class="orderRate">
+                            <div class="orderPic"><p>线上支付：</p><p>￥{{elem.price+100}}</p></div>
+                            <div class="roomRate"><span>房费：￥{{elem.price}}</span></div>
+                            <div class="deposit"><span>押金：￥100</span></div>
+                        </div>
+                    </div>
+                </el-col>
             </el-row>
         </div>
     </div>
 </template>
 <script>
+import Nav from './Nav.vue'
+import Footer from './Footer.vue'
 export default {
+    components:{
+        "Nav":Nav,
+        "Footer":Footer
+    },
     data() {
       return {
         checked: false,
@@ -80,6 +99,7 @@ export default {
         ownerTel:'',
         ownerNum:'',
         value7: '',
+        details:[],
         pickerOptions2: {
           shortcuts: [{
             text: '最近一周',
@@ -136,6 +156,10 @@ export default {
     },
     mounted() {
         this.getTime();
+        var hid={hid:1};
+        this.axios.get("/details",{params:hid}).then(res=>{
+            this.details=res.data.result;
+        })
     },
 }
 </script>
@@ -146,6 +170,10 @@ export default {
 .orderStep{
     border:1px solid #ddd;
     padding:20px 10px;
+    margin-right:20px;
+}
+.orderStep h3{
+    text-align:center;
 }
 .orderStep span{
     font-size:14px;
@@ -179,5 +207,54 @@ export default {
     border:0;
     font-size:14px;
     font-weight:400;
+}
+.submit{
+    text-align:center;
+    margin:20px;
+}
+.orderRight{
+    border:1px solid #ddd;
+}
+.orderRight img{
+    width:100%;
+}
+.orderTitle{
+    padding:15px;
+    margin:0;
+    font-size: 16px;
+    color: #3e97e2;
+    line-height: 20px;
+    font-weight: 400;
+}
+.orderType{
+    padding-bottom: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    padding-left:15px;
+    
+}
+.orderRate{
+    border-top:1px solid #f5dcbc;
+    background:#fffbf6;
+}
+.orderPic{
+    display:flex;
+    justify-content:space-between;
+    margin:15px;
+    border-bottom:1px dashed #f5dcbc;
+}
+.orderPic p{
+    margin:auto 0;
+    font-size:16px;
+    color:#666;
+}
+.orderPic p+p{
+    font-size: 28px;
+    color: #f66;
+}
+.roomRate,.deposit{
+    font-size:12px;
+    color:#666;
+    padding:0 15px 10px 15px;
 }
 </style>
