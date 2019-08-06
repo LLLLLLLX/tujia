@@ -358,12 +358,7 @@ export default {
   .hotelBtn{
       margin-top:20px;
   }
-  .el-button--warning{
-      background-image: linear-gradient(-221deg,#ff721e,#ff9b3e) !important;
-      border-radius:0!important;
-      width:100%!important;
-      font-size: 18px!important;
-  }
+
   .hotelRule p{
     font-size: 20px;
     color: #333;

@@ -101,6 +101,7 @@ server.get("/details",(req,res)=>{
     }
   })
 })
+
 //查看所有房屋
 server.get("/house",(req,res)=>{
   var sql="SELECT * FROM yijia_house"
@@ -113,6 +114,7 @@ server.get("/house",(req,res)=>{
     }
   })
 })
+
 //3.分页查询房屋信息
 server.get("/pagination",(req,res)=>{
   //1.参数
@@ -138,3 +140,22 @@ server.get("/pagination",(req,res)=>{
     });
   });
 });
+
+//插入订单信息
+server.get("/order",(req,res)=>{
+  var obj=req.query;
+  var uid=1;
+  if(!uid){
+    res.send({code:-1,msg:"uid不能为空"});
+    return;
+  }
+  var sql="UPDATE orderinfo SET datestart=?,dateend=?,bookingnum=?,bookingpeonum=?,ownername=?,ownertel=?,ownernum=? WHERE uid=?";
+  pool.query(sql,[obj.datestart,obj.dateend,obj.bookingnum,obj.bookingpeonum,obj.ownername,obj.ownertel,obj.ownernum,uid],(err,result)=>{
+    if(err) throw err;
+    if(result.affectedRows==0){
+      res.send({code:0,msg:"添加失败"});
+    }else{
+      res.send({code:1,result:result});
+    }
+  })
+})

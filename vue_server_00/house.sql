@@ -129,6 +129,19 @@ CREATE TABLE facility_service(
     serv VARCHAR(64)
 );
 
+#创建订单信息表
+CREATE TABLE orderinfo(
+    oid INT PRIMARY KEY  AUTO_INCREMENT,
+    datestart VARCHAR(64),
+    dateend VARCHAR(64),
+    bookingnum INT,
+    bookingpeonum INT,
+    ownername VARCHAR(16),
+    ownertel VARCHAR(64),
+    ownernum VARCHAR(64),
+    uid INT
+);
+
 #插入设施服务信息
 INSERT INTO facility_service VALUES(NULL,"无线网络","全天热水","烹饪锅局","超市","智能门锁","行李寄存");
 INSERT INTO facility_service VALUES(NULL,"空调","洗浴用品","餐具","菜市场","保安",NULL);
