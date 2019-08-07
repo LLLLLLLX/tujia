@@ -144,7 +144,7 @@ server.get("/pagination",(req,res)=>{
 //插入订单信息
 server.get("/order",(req,res)=>{
   var obj=req.query;
-  var uid=2;
+  var uid=req.session.uid;
   if(!uid){
     res.send({code:-1,msg:"uid不能为空"});
     return;

@@ -1,7 +1,10 @@
 <template>
 <div>
     <Nav></Nav>
-    <img class="hotelTopPic" :src='require(`../assets/${details.hic}`)' alt="">
+    <div v-for="(elem,i) of details" :key="i">
+        <img class="hotelTopPic" :src='require(`../assets/${elem.hic}`)' alt="">
+    </div>
+    
     <div class="hotelHead">
         <div class="">
             <span>房屋介绍</span>
@@ -18,13 +21,13 @@
     <div class="hotelContent">
         <el-row :gutter="20">
             <el-col :span="16">
-                <div class="grid-content bg-purple hotelContentTitle">
-                    <h2>{{details.title}}</h2>
-                    <div class="hotelAddress"><span>地址：{{details.addr_detail}}</span></div>
+                <div class="grid-content bg-purple hotelContentTitle" v-for="(elem,i) of details" :key="i">
+                    <h2>{{elem.title}}</h2>
+                    <div class="hotelAddress"><span>地址：{{elem.addr_detail}}</span></div>
                     <div class="headDetail"><span>自营民宿</span><span>连住优惠</span><span>闪订</span><span>实拍</span></div>
                     <div class="hotelDetail">
                         <div class=""><p>房屋描述</p></div>
-                        <div><span>{{details.detail}}</span></div>
+                        <div><span>{{elem.detail}}</span></div>
                     </div>
                     <div class="hotelServe">
                         <div class="serverTitle"><p>设施服务</p></div>
@@ -123,8 +126,8 @@
                 <div class="grid-content bg-purple hotelintrocontent">
                     <div class="hotelintro">
                         <div class="hotelPrice">
-                            <el-row :gutter="10">
-                                <el-col :sm="24" :md="16" :lg="16"><h1>￥{{details.price}}</h1></el-col>
+                            <el-row :gutter="10" v-for="(elem,i) of details" :key="i">
+                                <el-col :sm="24" :md="16" :lg="16"><h1>￥{{elem.price}}</h1></el-col>
                                 <el-col :sm="24" :md="8" :lg="8"><span>每晚</span></el-col>
                             </el-row>
                         </div>
@@ -146,6 +149,7 @@
                             <el-date-picker
                             v-model="date"
                             type="daterange"
+                            value-format="yyyy-MM-dd"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             :default-time="['00:00:00', '23:59:59']">
@@ -153,7 +157,7 @@
                         </div>
                         <div class="hotelBtn">
                             <el-row>
-                                <el-button type="warning">立刻预定</el-button>
+                                <el-button type="warning" @click="toOrderinfo(details[0].hid)">立刻预定</el-button>
                             </el-row>
                         </div>
                     </div>
@@ -176,18 +180,25 @@ export default {
     },
     data() {
         return {
-             date: '',
+             date: [],
              score:3.7,
              hid:'',
-             details:{}
+             details:[]
         }
     },
-    created(){
+    methods: {
+        toOrderinfo(hid){
+            console.log(hid);
+            this.$router.push({path:'/Orderinfo',query:{id:hid}});
+        }
+    },
+    mounted(){
+        this.date=sessionStorage.getItem("date").split(",");
         //console.log(this.$route.query.id);
         var hid={hid:this.$route.query.id};
         this.axios.get("/details",{params:hid}).then(res=>{
-            this.details=res.data.result[0];
-            //console.log(this.details.detail);
+            this.details=res.data.result;
+            //console.log(this.details);
         })
     },
 }

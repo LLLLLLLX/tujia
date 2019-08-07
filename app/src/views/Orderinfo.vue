@@ -145,20 +145,38 @@ export default {
                 ownertel:this.ownerTel,
                 ownername:this.ownerName
             };
-            this.axios.get("/order",{params:obj}).then(res=>{
-                if(res.data.code==1){
-                    alert("订单信息提交成功");
-                }else{
-                    alert("订单信息提交失败");
+            if(this.ownerName&&this.ownerTel&&this.ownerNum&&this.checked){
+                this.axios.get("/order",{params:obj}).then(res=>{
+                    if(res.data.code==1){
+                        alert("订单信息提交成功");
+                        
+                    }else{
+                        alert("订单信息提交失败");
+                    }
+                })
+            }else{
+                if(!this.ownerName){
+                    alert('姓名不能为空');
+                }else if(!this.ownerTel){
+                    alert('手机号不能为空');
+                }else if(!this.ownerNum){
+                    alert('身份证号不能为空');
+                }else if(!this.checked){
+                    alert('请选择是否阅读《途家网服务条款》');
                 }
-            })
+            }
         }
     },
     mounted() {
         this.getTime();
-        var hid={hid:1};
+        var hid={hid:this.$route.query.id};
         this.axios.get("/details",{params:hid}).then(res=>{
-            this.details=res.data.result;
+            if(res.data.code==1){
+                this.details=res.data.result;
+            }else{
+                alert("订单信息查询失败");
+            }
+            
         })
     },
 }

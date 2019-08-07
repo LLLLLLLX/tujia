@@ -11,6 +11,7 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Canvas from './views/Canvas.vue'
 import Orderinfo from './views/Orderinfo.vue'
+import Pay from './views/Pay.vue'
 
 Vue.use(Router)
 
@@ -27,6 +28,7 @@ export default new Router({
         {path: '/Register',component:Register},
         {path: '/Canvas',component:Canvas},
         {path: '/Orderinfo',component:Orderinfo},
+        {path: '/Pay',component:Pay},
         
     ]
 })
