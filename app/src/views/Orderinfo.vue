@@ -130,11 +130,6 @@ export default {
       };
     },
     methods: {
-        getTime(){
-            var t=new Date();
-            this.date.push(t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + (t.getDate())) ;
-            this.date.push(t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + (t.getDate()+1)) ;
-        },
         submitorder(){
             var obj={
                 datestart:this.date[0],
@@ -149,7 +144,12 @@ export default {
                 this.axios.get("/order",{params:obj}).then(res=>{
                     if(res.data.code==1){
                         alert("订单信息提交成功");
-                        
+                        this.$router.push({
+                            path: '/Pay',
+                            query: {
+                                date:this.date
+                            }
+                        }) 
                     }else{
                         alert("订单信息提交失败");
                     }
@@ -168,8 +168,9 @@ export default {
         }
     },
     mounted() {
-        this.getTime();
         var hid={hid:this.$route.query.id};
+        this.date=this.$route.query.date;
+        //console.log(this.date)
         this.axios.get("/details",{params:hid}).then(res=>{
             if(res.data.code==1){
                 this.details=res.data.result;

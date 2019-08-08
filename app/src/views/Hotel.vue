@@ -188,8 +188,8 @@ export default {
     },
     methods: {
         toOrderinfo(hid){
-            console.log(hid);
-            this.$router.push({path:'/Orderinfo',query:{id:hid}});
+            //console.log(hid);
+            this.$router.push({path:'/Orderinfo',query:{id:hid,date:this.date}});
         }
     },
     mounted(){

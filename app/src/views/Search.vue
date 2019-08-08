@@ -348,8 +348,8 @@
     selectPro(){
     },
     toHotel(hid){
-      //console.log(hid);
-      this.$router.push({path:'hotel',query:{id:hid}}); 
+      //console.log(this.date);
+      this.$router.push({path:'hotel',query:{id:hid,date:this.date}}); 
     }
     },
     mounted(){

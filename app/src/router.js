@@ -12,6 +12,7 @@ import Register from './views/Register.vue'
 import Canvas from './views/Canvas.vue'
 import Orderinfo from './views/Orderinfo.vue'
 import Pay from './views/Pay.vue'
+import PersonalCenter from './views/PersonalCenter.vue'
 
 Vue.use(Router)
 
@@ -27,8 +28,9 @@ export default new Router({
         {path: '/Login',component:Login},
         {path: '/Register',component:Register},
         {path: '/Canvas',component:Canvas},
-        {path: '/Orderinfo',component:Orderinfo},
-        {path: '/Pay',component:Pay},
+        {path: '/Orderinfo',component:Orderinfo,name:'Orderinfo'},
+        {path: '/Pay',component:Pay,name:'Pay'},
+        {path: '/PersonalCenter',component:PersonalCenter,name:'PersonalCenter'},
         
     ]
 })
