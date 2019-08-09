@@ -49,32 +49,44 @@ import Footer from './Footer.vue'
 export default {
     components:{
         "Nav":Nav,
-        "Footer":Footer
+        "Footer":Footer,
     },
     data () {
       return {
-        radio: '1',
+        radio: '',
         details:{},
         data:[],
         minute:29,
         second:59,
+        payState:0,
+        hid:{},
       };
     },
     methods: {
         submitpay(){
-            console.log(this.radio);
             switch(this.radio){
-                case '1':alert("使用支付宝支付成功");break;
-                case '2':alert("使用微信支付成功");break;
-                case '3':alert("使用云闪付支付成功");break;
+                case '1':alert("使用支付宝支付成功");this.payState=1;break;
+                case '2':alert("使用微信支付成功");this.payState=1;break;
+                case '3':alert("使用云闪付支付成功");this.payState=1;break;
+            }
+            if(this.payState==1){
+                this.$router.push({
+                    path: '/PersonalCenter',
+                    query: {
+                        date:this.date,
+                        hid:this.hid.hid
+                    }
+                }) 
+            }else{
+                alert('请选择支付方式！');
             }
         }
     },
     mounted() {
         this.date=this.$route.query.date;
-        //console.log(this.date)
-        var hid={hid:1};
-        this.axios.get("/details",{params:hid}).then(res=>{
+        //console.log(this.$route.query.hid)
+        this.hid={hid:this.$route.query.hid};
+        this.axios.get("/details",{params:this.hid}).then(res=>{
             //console.log(res.data.result);
             if(res.data.code==1){
                 this.details=res.data.result;

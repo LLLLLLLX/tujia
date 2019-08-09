@@ -100,6 +100,7 @@ export default {
         ownerNum:'',
         value7: '',
         details:[],
+        hid:{},
         pickerOptions2: {
           shortcuts: [{
             text: '最近一周',
@@ -138,7 +139,8 @@ export default {
                 bookingpeonum:this.bookingPeopleNum,
                 ownernum:this.ownerNum,
                 ownertel:this.ownerTel,
-                ownername:this.ownerName
+                ownername:this.ownerName,
+                hid:this.$route.query.id
             };
             if(this.ownerName&&this.ownerTel&&this.ownerNum&&this.checked){
                 this.axios.get("/order",{params:obj}).then(res=>{
@@ -147,7 +149,8 @@ export default {
                         this.$router.push({
                             path: '/Pay',
                             query: {
-                                date:this.date
+                                date:this.date,
+                                hid:this.hid.hid
                             }
                         }) 
                     }else{
@@ -168,7 +171,7 @@ export default {
         }
     },
     mounted() {
-        var hid={hid:this.$route.query.id};
+        this.hid={hid:this.$route.query.id};
         this.date=this.$route.query.date;
         //console.log(this.date)
         this.axios.get("/details",{params:hid}).then(res=>{

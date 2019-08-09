@@ -149,8 +149,8 @@ server.get("/order",(req,res)=>{
     res.send({code:-1,msg:"uid不能为空"});
     return;
   }
-  var sql="INSERT INTO orderinfo SET datestart=?,dateend=?,bookingnum=?,bookingpeonum=?,ownername=?,ownertel=?,ownernum=?,uid=?";
-  pool.query(sql,[obj.datestart,obj.dateend,obj.bookingnum,obj.bookingpeonum,obj.ownername,obj.ownertel,obj.ownernum,uid],(err,result)=>{
+  var sql="INSERT INTO orderinfo SET datestart=?,dateend=?,bookingnum=?,bookingpeonum=?,ownername=?,ownertel=?,ownernum=?,uid=?,hid=?";
+  pool.query(sql,[obj.datestart,obj.dateend,obj.bookingnum,obj.bookingpeonum,obj.ownername,obj.ownertel,obj.ownernum,uid,obj.hid],(err,result)=>{
     if(err) throw err;
     if(result.affectedRows==0){
       res.send({code:0,msg:"添加失败"});
