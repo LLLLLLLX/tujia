@@ -69,17 +69,13 @@ export default {
                 case '2':alert("使用微信支付成功");this.payState=1;break;
                 case '3':alert("使用云闪付支付成功");this.payState=1;break;
             }
-            if(this.payState==1){
-                this.$router.push({
-                    path: '/PersonalCenter',
-                    query: {
-                        date:this.date,
-                        hid:this.hid.hid
-                    }
-                }) 
-            }else{
-                alert('请选择支付方式！');
-            }
+            this.$router.push({
+                path: '/PersonalCenter',
+                query: {
+                    date:this.date,
+                    payState:this.payState
+                }
+            }) 
         }
     },
     mounted() {

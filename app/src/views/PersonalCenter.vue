@@ -1,5 +1,6 @@
 <template>
 <div>
+    <Nav></Nav>
     <div class="PersonalCenter">
         <el-row>
             <el-col :span="5">
@@ -51,7 +52,7 @@
                     <div>
                         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                             <el-tab-pane label="国内订单" name="first">
-                                <div class="rContent">
+                                <div class="rContent" v-for="(elem,i) of orderList" :key="i">
                                     <el-row>
                                         <el-col :span="4">
                                             <div class="rpic">
@@ -62,13 +63,14 @@
                                             <div class="rcontent">
                                                 <p class="rtitle">aaaaaa</p>
                                                 <div class="rdate">
-                                                    <p>入住：2019-08-07</p>
-                                                    <p>退房：2019-08-08</p>
-                                                    <p>套数：1</p>
+                                                    <p>入住：{{elem.datestart}}</p>
+                                                    <p>退房：{{elem.dateend}}</p>
+                                                    <p>套数：{{elem.bookingnum}}</p>
                                                     <p>房费：￥288</p>
                                                 </div>
-                                                <p class="rrate">订金：￥288</p>
-                                                <p class="rstate">订单状态：待支付</p>
+                                                <p class="rrate">订金：￥100</p>
+                                                <p class="rstate" v-show="payState==1">订单状态：已支付</p>
+                                                <p class="rstate" v-show="payState==0">订单状态：待支付</p>
                                             </div>
                                         </el-col>
                                     </el-row>
@@ -81,13 +83,24 @@
             </el-col>
         </el-row>
     </div>
+    <Footer></Footer>
 </div>
 </template>
 <script>
+import Nav from './Nav.vue'
+import Footer from './Footer.vue'
 export default {
+    components:{
+        "Nav":Nav,
+        "Footer":Footer
+    },
     data() {
       return {
-        activeName: 'first'
+        activeName: 'first',
+        date:[],
+        hid:'',
+        orderList:{},
+        hotelList:{},
       };
     },
     methods: {
@@ -97,8 +110,25 @@ export default {
     },
     mounted() {
         this.date=this.$route.query.date;
+        this.payState=this.$route.query.payState;
         //console.log(this.$route.query.hid)
-        this.hid={hid:this.$route.query.hid};
+        this.axios.get("/orderinfo").then(res=>{
+            //console.log(res.data.result);
+            if(res.data.code==1){
+                this.orderList=res.data.result;
+            }else{
+                alert("订单信息查询失败");
+            }
+        })
+        /** 
+        this.axios.get("/details",{params:this.hid}).then(res=>{
+            if(res.data.code==1){
+                this.hotelList=res.data.result;
+                //console.log(this.hotelList);
+            }else{
+                alert('房屋信息查询失败');
+            }
+        })*/
     },
 }
 </script>

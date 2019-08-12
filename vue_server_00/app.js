@@ -159,3 +159,17 @@ server.get("/order",(req,res)=>{
     }
   })
 })
+
+//通过uid,查看订单信息
+server.get("/orderinfo",(req,res)=>{
+  var uid=req.session.uid;
+  var sql="SELECT * FROM orderinfo Where uid=?"
+  pool.query(sql,[uid],(err,result)=>{
+    if(err) throw err;
+    if(result.length==0){
+      res.send({code:0,msg:"查询失败"});
+    }else{
+      res.send({code:1,result:result});
+    }
+  })
+})
