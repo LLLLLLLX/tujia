@@ -139,6 +139,7 @@ CREATE TABLE orderinfo(
     ownername VARCHAR(16),
     ownertel VARCHAR(64),
     ownernum VARCHAR(64),
+    hid Int,
     uid INT
 );
 

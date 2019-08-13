@@ -52,7 +52,7 @@
                     <div>
                         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                             <el-tab-pane label="国内订单" name="first">
-                                <div class="rContent" v-for="(elem,i) of orderList" :key="i">
+                                <div class="rContent" v-for="(elem,i) of hotelList" :key="i">
                                     <el-row>
                                         <el-col :span="4">
                                             <div class="rpic">
@@ -61,7 +61,7 @@
                                         </el-col>
                                         <el-col :span="20">
                                             <div class="rcontent">
-                                                <p class="rtitle">aaaaaa</p>
+                                                <p class="rtitle">{{elem.hname}}</p>
                                                 <div class="rdate">
                                                     <p>入住：{{elem.datestart}}</p>
                                                     <p>退房：{{elem.dateend}}</p>
@@ -99,7 +99,7 @@ export default {
         activeName: 'first',
         date:[],
         hid:'',
-        orderList:{},
+        orderList:[],
         hotelList:{},
       };
     },
@@ -113,13 +113,38 @@ export default {
         this.payState=this.$route.query.payState;
         //console.log(this.$route.query.hid)
         this.axios.get("/orderinfo").then(res=>{
-            //console.log(res.data.result);
             if(res.data.code==1){
                 this.orderList=res.data.result;
+                for(var i=0;i<this.orderList.length;i++){
+                    //console.log(this.orderList[i]);
+                    var hid={hid:this.orderList[i].hid};
+                    this.axios.get("/details",{params:hid}).then(res=>{
+                        if(res.data.code==1){
+                            this.hotelList=Object.assign(this.hotelList,res.data.result[0]);
+                            //this.hotelList[i]=Object.assign(this.orderList[i],res.data.result[0]);
+                            console.log(this.hotelList);
+                            //console.log(i);
+                            //console.log(res.data.result[0]);
+                        }else{
+                            alert('房屋信息查询失败');
+                        }
+                    })
+                }
             }else{
                 alert("订单信息查询失败");
             }
         })
+        for(var i=0;i<this.orderList.length;i++){
+            var hid={hid:this.orderList[i].hid};
+            this.axios.get("/details",{params:hid}).then(res=>{
+                if(res.data.code==1){
+                    this.orderList[i].concat(res.data.result);
+                    console.log(this.orderList);
+                }else{
+                    alert('房屋信息查询失败');
+                }
+            })
+        }
         /** 
         this.axios.get("/details",{params:this.hid}).then(res=>{
             if(res.data.code==1){
