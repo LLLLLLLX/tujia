@@ -13,7 +13,7 @@
     "element-ui": "^2.11.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
-    "swiper": "^4.5.0",
+    "swiper": "^6.5.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
   },
